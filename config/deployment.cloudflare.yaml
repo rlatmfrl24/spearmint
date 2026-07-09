@@ -1,0 +1,39 @@
+deployment:
+  platform: cloudflare
+  frontend: pages
+  api: workers
+  db_connection: hyperdrive
+  canonical_db: managed_postgres
+  object_storage: r2
+  queue: cloudflare_queues
+  scheduler: cron_triggers
+
+bindings:
+  hyperdrive: HYPERDRIVE
+  r2_raw_bucket: RAW_ARCHIVE
+  r2_report_bucket: REPORT_ARTIFACTS
+  queue_ingest: INGEST_QUEUE
+  queue_compute: COMPUTE_QUEUE
+  d1_cache_optional: EDGE_CACHE
+
+worker_rules:
+  max_query_pattern: snapshot_or_bounded_time_range
+  forbidden_worker_jobs:
+    - full_historical_replay
+    - large_backfill
+    - model_training
+    - large_feature_rebuild
+    - broker_live_execution_without_gate
+
+recommended_managed_postgres:
+  development:
+    - Neon
+    - Supabase
+  production:
+    - AWS RDS PostgreSQL
+    - Aurora PostgreSQL
+    - Timescale Cloud when intraday/time-series scale requires it
+
+networking:
+  mvp: "Managed Postgres public endpoint + SSL + Cloudflare allowed IP policy if supported"
+  production: "Private networking, Workers VPC, or Cloudflare Tunnel review"

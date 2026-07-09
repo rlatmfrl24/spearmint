@@ -1,0 +1,66 @@
+version: 3
+name: ai_market_decision_os_quality_gates
+
+global_gates:
+  docs_sync:
+    required: true
+    checks:
+      - changed_contracts_update_docs
+      - changed_api_updates_frontend_types
+      - changed_thresholds_update_config_and_metric_docs
+      - changed_loop_updates_loop_memory
+  tests:
+    required: true
+    checks:
+      - unit_tests_network_free
+      - metric_edge_case_tests
+      - rulebook_pattern_tests
+      - api_contract_tests
+  data_governance:
+    required: true
+    checks:
+      - raw_and_derived_separated
+      - long_format_series
+      - idempotent_upsert
+      - freshness_visible
+      - known_at_not_after_asof_at
+  financial_guardrails:
+    required: true
+    checks:
+      - no_average_super_score
+      - state_transition_separated
+      - risk_and_invalidation_present
+      - probabilities_expected_returns_targets_gated
+      - buy_sell_outputs_gated
+  cloudflare_postgres:
+    required: true
+    checks:
+      - workers_do_not_run_heavy_replay
+      - hyperdrive_queries_use_snapshot_or_bounded_paths
+      - r2_used_for_raw_payloads_and_artifacts
+      - d1_not_used_as_canonical_db
+  loop_engineering:
+    required: true
+    checks:
+      - loop_spec_has_trigger_goal_verification_stop_memory
+      - terminal_state_named
+      - verification_level_declared
+      - failed_or_exhausted_not_marked_success
+      - loop_memory_written
+
+capability_sensitive_gates:
+  layer5_ai_judgment:
+    min_verification_level: L2_rule_or_policy
+    requires: [ai_decision_log, guardrail_validator]
+  layer6_stock_candidates:
+    min_verification_level: L3_delayed_field_truth
+    requires: [validation_summary, data_license_review]
+  layer7_personalized_advice:
+    min_verification_level: L5_human_checkpoint
+    requires: [jurisdiction_review, suitability_model, audit_log]
+  layer8_order_intents:
+    min_verification_level: L5_human_checkpoint
+    requires: [paper_trading, risk_gate, broker_sandbox, user_approval]
+  layer8_auto_trading:
+    min_verification_level: L5_human_checkpoint
+    requires: [legal_approval, broker_approval, kill_switch, full_execution_audit]

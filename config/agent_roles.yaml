@@ -1,0 +1,38 @@
+version: 3
+name: ai_market_decision_os_agent_roles
+
+roles:
+  loop_manager:
+    purpose: Select the right loop, keep budget, detect no-progress, and write final handoff.
+    may_modify_code: false
+    may_approve_own_work: false
+  maker_agent:
+    purpose: Implement bounded source/docs/config changes according to one loop specification.
+    may_modify_code: true
+    may_approve_own_work: false
+  verifier_agent:
+    purpose: Run deterministic checks, schema checks, policy checks, and contract tests.
+    may_modify_code: false
+    may_approve_own_work: false
+  critic_agent:
+    purpose: Review architecture drift, financial guardrail drift, and missing documentation.
+    may_modify_code: false
+    may_approve_own_work: false
+  docs_synchronizer:
+    purpose: Keep README, AGENTS, docs, skills, config, migrations, and manifest aligned.
+    may_modify_code: true
+    may_approve_own_work: false
+  data_guardian:
+    purpose: Review PIT correctness, raw/derived separation, freshness, source policy, and provider licensing.
+    may_modify_code: false
+    may_approve_own_work: false
+  risk_guardian:
+    purpose: Review capability gates, risk gates, execution gates, and broker/order safety.
+    may_modify_code: false
+    may_approve_own_work: false
+
+role_separation_rules:
+  - The maker must not be the sole verifier for Level 4 model-judged goals.
+  - The loop_manager may stop or escalate a loop but must not mark failed verification as success.
+  - Execution or trading loops require risk_guardian and human checkpoint before any user-facing enablement.
+  - Legal, jurisdiction, broker, or license unknowns must produce blocked, not success.

@@ -1,0 +1,77 @@
+sources:
+  - source_id: prices.fixture
+    label: Fixture Prices
+    source_class: fixture
+    cadence: daily
+    stale_after_days: 3
+    official: false
+    license_status: internal_test_only
+    allowed_use: [unit_tests, local_demo]
+    redistribution_allowed: false
+    warning: "Fixture data is for tests and local development only."
+
+  - source_id: prices.massive_us_stocks
+    label: Massive/Polygon U.S. Stocks API
+    source_class: vendor
+    cadence: daily_or_intraday_by_plan
+    stale_after_days: 2
+    official: false
+    license_status: license_required
+    allowed_use: [internal_research, production_if_plan_allows]
+    redistribution_allowed: false
+    warning: "Verify commercial plan, redistribution rights, and display/non-display rights before production."
+
+  - source_id: macro.fred
+    label: FRED/ALFRED Macro Data
+    source_class: official_macro
+    cadence: mixed
+    stale_after_days: 7
+    official: true
+    license_status: api_key_and_terms_required
+    allowed_use: [research, dashboard, validation]
+    redistribution_allowed: check_terms
+    warning: "Use ALFRED vintages when point-in-time macro history matters."
+
+  - source_id: filings.sec_edgar
+    label: SEC EDGAR API
+    source_class: official_filing
+    cadence: realtime_plus_nightly_bulk
+    stale_after_days: 2
+    official: true
+    license_status: public_api_policy_required
+    allowed_use: [research, filings_reference, validation]
+    redistribution_allowed: check_sec_policy
+    warning: "Automated access must comply with SEC fair-access and identity policies. Use bulk ZIP for large backfills."
+
+  - source_id: universe.ssga_sector_spdr
+    label: State Street Select Sector ETF References
+    source_class: issuer_reference
+    cadence: daily_or_site_defined
+    stale_after_days: 7
+    official: issuer
+    license_status: terms_review_required
+    allowed_use: [manual_reference, universe_metadata]
+    redistribution_allowed: false
+    warning: "Do not scrape or redistribute holdings/performance unless permitted by issuer/vendor terms."
+
+  - source_id: indices.sp_global_sectors
+    label: S&P Sector and GICS References
+    source_class: index_reference
+    cadence: vendor_defined
+    stale_after_days: 30
+    official: index_provider
+    license_status: index_license_required_for_redistribution
+    allowed_use: [taxonomy_reference]
+    redistribution_allowed: false
+    warning: "S&P/GICS index data and names may be protected by license; use only as permitted."
+
+  - source_id: catalyst.manual
+    label: Manual Catalyst Ledger
+    source_class: manual
+    cadence: manual
+    stale_after_days: 30
+    official: false
+    license_status: internal_manual
+    allowed_use: [research]
+    redistribution_allowed: internal_only
+    warning: "Manual catalysts require review and source notes."

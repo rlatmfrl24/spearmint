@@ -1,0 +1,44 @@
+regulatory_scope:
+  status: preliminary_architecture_policy_not_legal_advice
+  review_required_before_user_facing_advice_or_execution: true
+
+jurisdictions:
+  US:
+    mvp_allowed: research_dashboard_without_personalized_advice
+    personalized_advice: blocked_until_legal_memo_and_registration_analysis
+    order_execution: blocked_until_broker_and_compliance_approval
+    auto_trading: blocked_until_registration_or_exemption_analysis_and_broker_approval
+    required_controls:
+      - advisory_status_analysis
+      - disclosures
+      - suitability_or_profile_model
+      - audit_log
+      - supervision_workflow
+      - user_consent
+  KR:
+    mvp_allowed: research_dashboard_without_personalized_advice
+    personalized_advice: blocked_until_local_counsel_review
+    order_execution: blocked_until_broker_api_and_local_regulatory_review
+    auto_trading: blocked_until_local_counsel_review_and_sandbox_or_license_path
+    required_controls:
+      - local_financial_investment_business_review
+      - robo_advisor_or_discretionary_advice_review
+      - user_consent
+      - suitability_or_investor_profile
+      - audit_log
+      - broker_terms_review
+
+copy_policy:
+  research_terms_allowed:
+    - "리서치 관점에서"
+    - "관찰됩니다"
+    - "무효화 조건"
+    - "검증 상태"
+  gated_terms:
+    - "매수"
+    - "매도"
+    - "목표가"
+    - "기대수익률"
+    - "상승 확률"
+    - "주문"
+    - "자동매매"

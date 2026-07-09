@@ -1,0 +1,70 @@
+calibration:
+  status: defined_not_yet_validated
+  expose_user_facing_probabilities: false
+  expose_expected_returns: false
+  expose_target_prices: false
+
+forward_labels:
+  primary_relative_label:
+    name: sector_outperforms_benchmark_20d
+    horizon_trading_days: 20
+    formula: "return(sector, t+20) - return(SPY, t+20)"
+    positive_threshold_bps: 100
+    neutral_band_bps: 50
+  secondary_relative_label:
+    name: sector_outperforms_benchmark_60d
+    horizon_trading_days: 60
+    formula: "return(sector, t+60) - return(SPY, t+60)"
+    positive_threshold_bps: 200
+    neutral_band_bps: 100
+  risk_label:
+    name: max_relative_drawdown_20d
+    horizon_trading_days: 20
+
+validation_protocol:
+  split: walk_forward
+  minimum_training_years: 5
+  minimum_test_windows: 8
+  embargo_days: 5
+  rebalance_frequency: weekly_or_daily_by_experiment
+  no_lookahead_rule: "known_at <= asof_at"
+
+metrics:
+  classification:
+    - brier_score
+    - log_loss
+    - expected_calibration_error
+    - reliability_curve
+    - precision_at_k
+    - recall_at_k
+  regression_or_return_range:
+    - mae
+    - pinball_loss
+    - coverage_p10_p90
+    - calibration_by_decile
+  trading_relevance_shadow_only:
+    - hit_rate_relative
+    - average_relative_return
+    - max_drawdown
+    - turnover
+    - transaction_cost_sensitivity
+
+minimum_exposure_gates:
+  pattern_sample_size_min: 60
+  out_of_sample_windows_min: 8
+  ece_max_for_probability_copy: 0.05
+  brier_improvement_vs_base_rate_required: true
+  decile_monotonicity_required: true
+  thin_sample_action: hide_numeric_probability_show_readiness_only
+
+copy_policy:
+  before_gate:
+    allowed: [state, transition, pattern, qualitative_conviction, scenario]
+    blocked: [probability, expected_return, target_price]
+  after_gate:
+    probability_copy_must_include:
+      - horizon
+      - sample_size
+      - calibration_date
+      - reliability_label
+      - caveat

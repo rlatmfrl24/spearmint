@@ -1,0 +1,37 @@
+name = "ai-market-decision-os-api"
+main = "src/index.ts"
+compatibility_date = "2026-07-08"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "<YOUR_HYPERDRIVE_ID>"
+localConnectionString = "postgres://postgres:postgres@localhost:5432/ai_market_decision_os"
+
+[[r2_buckets]]
+binding = "RAW_ARCHIVE"
+bucket_name = "ai-market-raw-archive"
+
+[[r2_buckets]]
+binding = "REPORT_ARTIFACTS"
+bucket_name = "ai-market-report-artifacts"
+
+[[queues.producers]]
+binding = "INGEST_QUEUE"
+queue = "ai-market-ingest"
+
+[[queues.producers]]
+binding = "COMPUTE_QUEUE"
+queue = "ai-market-compute"
+
+# Optional only. Do not use D1 as canonical analytical DB.
+# [[d1_databases]]
+# binding = "EDGE_CACHE"
+# database_name = "ai-market-edge-cache"
+# database_id = "<YOUR_D1_ID>"
+
+[triggers]
+crons = ["15 22 * * 1-5"]

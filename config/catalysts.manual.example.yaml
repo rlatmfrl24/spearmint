@@ -1,0 +1,11 @@
+catalysts:
+  - catalyst_id: example-001
+    sector_code: XLK
+    catalyst_type: structural
+    state: positive
+    transition: strengthening
+    confidence: medium
+    effective_date: 2026-07-08
+    source_note: "Example manual catalyst for local development."
+    stale_after: 2026-08-08
+    manual_check_status: active

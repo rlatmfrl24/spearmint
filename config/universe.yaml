@@ -1,0 +1,107 @@
+market:
+  code: US_SP500_SECTOR_ETF
+  name: "U.S. S&P 500 Sector ETF Radar"
+  country: US
+  timezone: America/New_York
+  currency: USD
+  trading_calendar: XNYS
+  phase: 1
+
+benchmark:
+  code: SPY
+  name: "SPDR S&P 500 ETF Trust"
+  role: broad_market_benchmark
+  instrument_type: etf
+  provider_symbol: SPY
+
+sectors:
+  - code: XLC
+    name: Communication Services
+    gics_sector: Communication Services
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLY
+    name: Consumer Discretionary
+    gics_sector: Consumer Discretionary
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLP
+    name: Consumer Staples
+    gics_sector: Consumer Staples
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLE
+    name: Energy
+    gics_sector: Energy
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLF
+    name: Financials
+    gics_sector: Financials
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLV
+    name: Health Care
+    gics_sector: Health Care
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLI
+    name: Industrials
+    gics_sector: Industrials
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLB
+    name: Materials
+    gics_sector: Materials
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLRE
+    name: Real Estate
+    gics_sector: Real Estate
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLK
+    name: Technology
+    gics_sector: Information Technology
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+  - code: XLU
+    name: Utilities
+    gics_sector: Utilities
+    family: Select Sector SPDR
+    instrument_type: sector_etf
+
+supporting_series:
+  breadth_proxy:
+    - code: RSP
+      name: "Invesco S&P 500 Equal Weight ETF"
+      purpose: "equal-weight breadth proxy against SPY"
+    - code: IWM
+      name: "iShares Russell 2000 ETF"
+      purpose: "small-cap appetite proxy"
+    - code: QQQ
+      name: "Invesco QQQ Trust"
+      purpose: "growth/mega-cap risk appetite proxy"
+  macro:
+    - code: DGS10
+      name: "10-Year Treasury Constant Maturity Rate"
+      provider: FRED
+    - code: VIXCLS
+      name: "CBOE Volatility Index: VIX"
+      provider: FRED
+    - code: BAMLH0A0HYM2
+      name: "ICE BofA US High Yield Index Option-Adjusted Spread"
+      provider: FRED
+  future_holdings_breadth:
+    enabled: false
+    reason: "ETF holdings and constituent-level breadth require issuer/vendor license review."
+
+expansion_markets:
+  phase_2:
+    code: KR_SECTOR
+    status: deferred
+    note: "KRX/KIND/OpenDART 기반 한국 섹터 확장."
+  phase_3:
+    code: GLOBAL_THEME_ETF
+    status: deferred
+    note: "글로벌 테마, 국가, 스타일, 채권/원자재/FX proxy 확장."
