@@ -1,0 +1,51 @@
+# Illustrative paper-test universe. Liquidity criteria and membership require approval.
+schema_version: 1
+metadata:
+  universe_id: krx-paper-example-v1
+  status: PROPOSED
+  environment: paper
+  owner: TBD
+  approved_by: null
+  as_of: "2026-08-13"
+
+market: KRX
+currency: KRW
+timezone: Asia/Seoul
+
+membership:
+  mode: EXPLICIT_ALLOWLIST
+  instruments:
+    - instrument_id: KRX:005930
+      enabled: true
+      note: paper integration example only
+    - instrument_id: KRX:000660
+      enabled: false
+      note: enable only after subscription and risk review
+    - instrument_id: KRX:069500
+      enabled: false
+      note: enable only after product metadata review
+
+filters:
+  min_average_daily_value_krw: null
+  min_trading_days: null
+  max_spread_bps: null
+  exclude_trade_halt: true
+  exclude_management_issue: true
+  exclude_delisting_process: true
+  exclude_leveraged_products: true
+  exclude_inverse_products: true
+  exclude_short_sale_required: true
+
+runtime:
+  max_concurrent_symbols: 1
+  regular_session_only: true
+  allowed_order_types:
+    - LIMIT
+  point_in_time_membership_required: true
+  unknown_instrument_action: REJECT
+
+activation_gate:
+  live_enabled: false
+  reject_live_if_status_is_not: APPROVED
+  reject_live_if_liquidity_filter_is_null: true
+  reject_if_product_metadata_is_unverified: true

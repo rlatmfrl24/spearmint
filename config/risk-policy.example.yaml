@@ -1,0 +1,96 @@
+# Example only. Status is PROPOSED and valid for isolated paper testing.
+schema_version: 1
+metadata:
+  policy_id: risk-paper-conservative-v1
+  status: PROPOSED
+  environment: paper
+  owner: TBD
+  approved_by: null
+  effective_from: null
+  expires_at: null
+
+safety:
+  live_enabled: false
+  fail_closed_on_unknown: true
+  allowed_sides:
+    - BUY
+    - SELL_TO_CLOSE
+  long_cash_only: true
+  leverage_allowed: false
+  short_allowed: false
+  averaging_down_allowed: false
+  averaging_down_definition: losing_long_quantity_increase
+  market_orders_allowed: false
+
+ai_overlay:
+  enabled: false
+  minimum_multiplier: "0"
+  maximum_multiplier: "1"
+  can_increase_base_exposure: false
+  invalid_output_action: REJECT_ASSESSMENT
+  missing_or_stale_fallback_multiplier: "1"
+  max_age_seconds: 300
+
+freshness:
+  market_event_max_age_ms: 2000
+  feature_snapshot_max_age_ms: 3000
+  risk_snapshot_max_age_ms: 1000
+  broker_snapshot_max_age_seconds: 30
+  max_clock_skew_ms: 500
+  on_sequence_gap: BLOCK_NEW_ENTRY
+
+# Conservative paper-test values, not approved investment limits.
+limits:
+  account:
+    currency: KRW
+    max_gross_notional: "1000000"
+    max_committed_notional: "1000000"
+    max_open_orders: 5
+    max_daily_turnover: "2000000"
+    max_daily_realized_loss: "20000"
+    max_drawdown_ratio: "0.02"
+  strategy:
+    max_gross_notional: "500000"
+    max_open_orders: 3
+  symbol:
+    max_position_notional: "300000"
+    max_order_notional: "100000"
+    max_open_orders: 1
+  execution:
+    max_price_deviation_bps: 50
+    max_order_age_seconds: 30
+    max_quantity: "10"
+
+reconciliation:
+  block_new_entry_on_unknown_order: true
+  block_new_entry_on_high_mismatch: true
+  block_all_risk_increase_on_critical_mismatch: true
+  full_run_before_session: true
+  full_run_after_session: true
+  periodic_interval_seconds: 30
+
+executor:
+  single_writer_per_account: true
+  fencing_required: true
+  lease_ttl_seconds: 10
+  heartbeat_seconds: 2
+  blind_retry_after_submit_timeout: false
+
+kill_switch:
+  supported_scopes:
+    - GLOBAL
+    - ENVIRONMENT
+    - ACCOUNT
+    - STRATEGY
+    - SYMBOL
+    - DATA_SOURCE
+  cancel_all_is_separate_action: true
+  automatic_flatten_enabled: false
+  release_requires_reason: true
+  live_release_requires_second_approval: true
+
+activation_gate:
+  reject_live_if_status_is_not: APPROVED
+  reject_live_if_approved_by_is_null: true
+  reject_live_if_any_limit_is_null: true
+  reject_on_unsigned_policy: true

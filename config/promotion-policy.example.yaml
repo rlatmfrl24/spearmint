@@ -1,0 +1,78 @@
+# Example only. This policy does not authorize live promotion.
+schema_version: 1
+metadata:
+  policy_id: promotion-proposed-v1
+  status: PROPOSED
+  owner: TBD
+  approved_by: null
+
+scope:
+  allowed_environments:
+    - paper
+  live_promotion_enabled: false
+  champion_max_per_environment_account: 1
+  challenger_order_permission: false
+
+evidence:
+  require_hypothesis_registration: true
+  require_all_trials_registry: true
+  require_code_digest: true
+  require_data_digest: true
+  require_config_digest: true
+  require_container_digest: true
+  require_universe_and_calendar_version: true
+  require_cost_and_fill_model_version: true
+  require_clean_environment_reproduction_count: 2
+
+validation:
+  require_vectorized_screen: true
+  require_event_driven_replay: true
+  require_purged_walk_forward: true
+  require_cpcv: true
+  require_dsr: true
+  proposed_min_dsr_probability: "0.95"
+  require_pbo: true
+  proposed_target_max_pbo: "0.10"
+  proposed_review_ceiling_pbo: "0.20"
+  require_parameter_neighborhood_stability: true
+  require_regime_slices: true
+  required_cost_multipliers:
+    - "1"
+    - "2"
+    - "3"
+  required_fault_stress:
+    - DATA_GAP
+    - DECISION_LATENCY
+    - MISSED_EVENT
+    - EXECUTION_DEGRADATION
+  minimum_trade_count: null
+
+paper_and_shadow:
+  proposed_minimum_paper_trading_days: 30
+  unresolved_critical_incidents_allowed: 0
+  unresolved_reconciliation_mismatches_allowed: 0
+  require_synchronized_shadow_inputs: true
+  require_champion_comparison: true
+
+approval:
+  human_approval_required: true
+  requester_may_self_approve_live: false
+  risk_approver_required: true
+  approval_reason_required: true
+  approval_expires_after_hours: 24
+
+deployment:
+  signed_manifest_required: true
+  artifact_digest_match_required: true
+  safe_window_required: true
+  default_require_flat_and_no_open_orders: true
+  state_compatibility_check_required: true
+  previous_champion_rollback_target_required: true
+  rollback_rehearsal_required: true
+  mlflow_alias_may_route_capital: false
+
+activation_gate:
+  reject_live_if_policy_status_is_not: APPROVED
+  reject_if_minimum_trade_count_is_null: true
+  reject_if_any_required_evidence_is_missing: true
+  reject_without_distinct_human_approval: true
